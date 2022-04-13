@@ -1,5 +1,5 @@
 <template>
-  <div class="blog-wrapper">
+  <div class="blog-wrapper no-user">
     <div class="blog-content">
       <div>
         <h2 v-if="post.welcomeScreen">
@@ -15,22 +15,22 @@
           Login/Register<Arrow class="arrow arrow-light" />
         </router-link>
 
-        <router-link class="link link-light" v-else to="#">
+        <router-link class="link" v-else to="#">
           View The Post <Arrow class="arrow" />
         </router-link>
       </div>
-      <div class="blog-photo">
-        <img
-          v-if="post.welcomeScreen"
-          :src="require(`../assets/blogPhotos/${post.photo}.jpg`)"
-          alt=""
-        />
-        <img
-          v-else
-          :src="require(`../assets/blogPhotos/${post.blogCoverPhoto}.jpg`)"
-          alt=""
-        />
-      </div>
+    </div>
+    <div class="blog-photo">
+      <img
+        v-if="post.welcomeScreen"
+        :src="require(`../assets/blogPhotos/${post.photo}.jpg`)"
+        alt=""
+      />
+      <img
+        v-else
+        :src="require(`../assets/blogPhotos/${post.blogCoverPhoto}.jpg`)"
+        alt=""
+      />
     </div>
   </div>
 </template>
@@ -39,6 +39,7 @@
 import Arrow from "../assets/Icons/arrow-right-light.svg";
 
 export default {
+  name: "blogPost",
   props: ["post"],
   components: {
     Arrow,
@@ -49,7 +50,7 @@ export default {
 <style lang="scss" scoped>
 .blog-wrapper {
   display: flex;
-  flex-direction: columns;
+  flex-direction: column;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
@@ -120,12 +121,49 @@ export default {
         }
       }
 
-      .link-light{
-        &:hover{
-          border-bottom-color: #fff;
+      .link-light {
+        &:hover {
+          border-bottom-color: #ffff;
         }
       }
     }
+  }
+
+  .blog-photo {
+    order: 1;
+    flex: 3;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+    @media (min-width: 700px) {
+      order: 2;
+    }
+
+    @media (min-width: 800px) {
+      flex: 4;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &:nth-child(even) {
+    .blog-content {
+      order: 2;
+    }
+    .blog-photo {
+      order: 1;
+    }
+  }
+}
+.no-user:first-child {
+  .blog-content {
+    background-color: #303030;
+    color: #fff;
   }
 }
 </style>
