@@ -9,10 +9,10 @@
 
       <div class="nav-links">
         <ul v-show="!mobile">
-          <router-link class="link" to="#">Home</router-link>
-          <router-link class="link" to="#">Blogs</router-link>
+          <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
+          <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
           <router-link class="link" to="#">Create Post</router-link>
-          <router-link class="link" to="#">Login/Registor</router-link>
+          <router-link class="link" to="/login">Login/Registor</router-link>
         </ul>
       </div>
     </nav>
@@ -21,10 +21,12 @@
 
     <transition name="mobile-nav">
       <ul class="mobile-nav" v-show="mobileNav">
-        <router-link class="link" to="#">Home</router-link>
-        <router-link class="link" to="#">Blogs</router-link>
+        <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
+        <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
         <router-link class="link" to="#">Create Post</router-link>
-        <router-link class="link" to="#">Login/Registor</router-link>
+        <router-link class="link" :to="{ name: 'Login' }"
+          >Login/Registor</router-link
+        >
       </ul>
     </transition>
   </header>
@@ -151,23 +153,20 @@ header {
   }
 
   .mobile-nav-enter-active,
-
-  .mobile-nav-leave-active{
+  .mobile-nav-leave-active {
     transition: all 1s ease;
   }
 
-  .mobile-nav-enter{
+  .mobile-nav-enter {
     transform: translateX(-250px);
   }
 
-  .mobile-nav-enter-to{
+  .mobile-nav-enter-to {
     transform: translateX(0);
   }
 
-  .mobile-nav-leave-to{
+  .mobile-nav-leave-to {
     transform: translateX(-250px);
   }
-
-
 }
 </style>

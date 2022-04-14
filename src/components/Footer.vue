@@ -3,7 +3,7 @@
     <div class="container">
       <div class="left">
         <div class="col-1">
-          <router-link class="header" :to="{ name: 'home' }"
+          <router-link class="header" :to="{ name: 'Home' }"
             >FireBlogs</router-link
           >
 
@@ -28,14 +28,12 @@
 
         <div class="col-2">
           <ul>
-            <router-link class="link" :to="{ name: 'home' }">Home</router-link>
-            <router-link class="link" :to="{ name: 'blogs' }"
+            <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
+            <router-link class="link" :to="{ name: 'Blogs' }"
               >Blogs</router-link
             >
-            <router-link v-if="user" class="link" :to="{ name: 'newpost' }"
-              >Create Post</router-link
-            >
-            <router-link v-if="!user" class="link" :to="{ name: 'login' }"
+            <router-link class="link" to="#">Create Post</router-link>
+            <router-link class="link" :to="{ name: 'Login' }"
               >Login In/ Registor</router-link
             >
           </ul>
@@ -104,7 +102,7 @@ footer {
         text-decoration: none;
         font-weight: 600;
         @media (min-width: 800px) {
-            text-align: initial;
+          text-align: initial;
         }
       }
 
