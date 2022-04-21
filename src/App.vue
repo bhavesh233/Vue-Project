@@ -1,12 +1,11 @@
 <template>
   <div class="app-wrapper">
-    <div class="app">
+    <div class="app" v-if="this.$store.state.postLoaded">
       <Navigation v-if="!navigation" />
       <router-view />
       <Footer v-if="!navigation" />
     </div>
   </div>
-  
 </template>
 
 <script>
@@ -24,18 +23,18 @@ export default {
     };
   },
   created() {
-    firebase.auth().onAuthStateChanged((user)=>{
-        this.$store.commit("updateUser",user);
-        if(user){
-          this.$store.dispatch("getCurrentUser");
-        }
-    })
-    
+    firebase.auth().onAuthStateChanged((user) => {
+      this.$store.commit("updateUser", user);
+      if (user) {
+        this.$store.dispatch("getCurrentUser");
+      }
+    });
+
     this.checkRoute();
     // console.log(firebase.auth().currentUser);
+    this.$store.dispatch("getPost");
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     checkRoute() {
       if (
@@ -50,9 +49,9 @@ export default {
     },
   },
   watch: {
-    $route(){
-      this.checkRoute() 
-    }
+    $route() {
+      this.checkRoute();
+    },
   },
 };
 </script>
@@ -153,11 +152,10 @@ button,
   background-color: rgba(128, 128, 128, 0.5) !important;
 }
 
-.error{
+.error {
   text-align: center;
   font-size: 12px;
   color: red;
-   
 }
 
 .blog-card-wrap {

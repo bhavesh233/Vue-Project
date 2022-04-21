@@ -68,6 +68,8 @@ export default {
       file: null,
       error: null,
       loading: null,
+      routerID:null,
+      currentBlog:null,
       errorMsg: null,
       editorSetting: {
         modules: {
@@ -75,6 +77,15 @@ export default {
         },
       },
     };
+  },
+  async mounted(){
+      this.routerID = this.$route.params.blogid;
+      this.currentBlog = await this.$store.state.blogPosts.filter((post)=>{
+            return post.blogId ===  this.routerID
+      })
+
+      this.$store.commit("setBlogState",this.currentBlog[0])
+
   },
   methods: {
     uploadBlog() {
