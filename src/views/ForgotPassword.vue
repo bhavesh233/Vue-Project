@@ -10,9 +10,7 @@
       <form class="reset">
         <p class="login-register">
           Back to
-          <router-link class="router-link" :to="{ name: 'Login' }">
-            Login
-          </router-link>
+          <router-link class="router-link" :to="{ name: 'Login' }"> Login </router-link>
         </p>
         <h2>Reset Password</h2>
         <p>Forgot your Password? Enter your email to reset it</p>
@@ -54,25 +52,25 @@ export default {
   },
   methods: {
     resetPassword() {
-        this.loading = true;
-        if (this.email !== "") {
-          firebase
-            .auth()
-            .sendPasswordResetEmail(this.email)
-            .then(() => {
-              this.modalMessage = "If your account exits, you will receive a email";
-              this.loading = false;
-              this.modalActive = true;
-            })
-            .catch((err) => {
-              this.modalMessage = err.message;
-              this.loading = false;
-              this.modalActive = true;
-            });
-      }else{
-             this.modalMessage = "Please enter email";
-              this.loading = false;
-              this.modalActive = true;
+      this.loading = true;
+      if (this.email !== "") {
+        firebase
+          .auth()
+          .sendPasswordResetEmail(this.email)
+          .then(() => {
+            this.modalMessage = "If your account exits, you will receive a email";
+            this.loading = false;
+            this.modalActive = true;
+          })
+          .catch((err) => {
+            this.modalMessage = err.message;
+            this.loading = false;
+            this.modalActive = true;
+          });
+      } else {
+        this.modalMessage = "Please enter email";
+        this.loading = false;
+        this.modalActive = true;
       }
     },
     closeModal() {
