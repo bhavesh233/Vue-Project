@@ -82,7 +82,7 @@ export default {
   },
   methods: {
     async register() {
-      this.loading = true;
+      
       if (
         this.firstName !== "" &&
         this.lastName !== "" &&
@@ -90,6 +90,7 @@ export default {
         this.email !== "" &&
         this.password !== ""
       ) {
+        this.loading = true;
         this.error = false;
         this.errorMsg = "";
         try {
@@ -117,7 +118,6 @@ export default {
           this.errorMsg = error.message;
         }
       } else {
-        this.loading = false;
         this.error = true;
         this.errorMsg = "Enter ValidData for Create User";
       }

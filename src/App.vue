@@ -6,6 +6,7 @@
       <Footer v-if="!navigation" />
     </div>
   </div>
+  
 </template>
 
 <script>
@@ -23,8 +24,15 @@ export default {
     };
   },
   created() {
+    firebase.auth().onAuthStateChanged((user)=>{
+        this.$store.commit("updateUser",user);
+        if(user){
+          this.$store.dispatch("getCurrentUser");
+        }
+    })
+    
     this.checkRoute();
-    console.log(firebase.auth().currentUser);
+    // console.log(firebase.auth().currentUser);
   },
   mounted() {
   },

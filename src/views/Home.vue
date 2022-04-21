@@ -1,25 +1,17 @@
 <template>
   <div class="home">
-    <blog-post :post="welcomeScreen" />
-    <Blog-post
-      :post="post"
-      v-for="(post, index) in sampleBlogPost"
-      :key="index"
-    />
+    <blog-post v-if="!user" :post="welcomeScreen" />
+    <Blog-post :post="post" v-for="(post, index) in sampleBlogPost" :key="index" />
     <div class="blog-card-wrap">
       <div class="container">
         <h3>View More Recent Blogs</h3>
         <div class="blog-cards">
-          <BlogCard
-            :post="post"
-            v-for="(post, index) in sampleBlogCards"
-            :key="index"
-          />
+          <BlogCard :post="post" v-for="(post, index) in sampleBlogCards" :key="index" />
         </div>
       </div>
     </div>
 
-    <div class="updates">
+    <div v-if="!user" class="updates">
       <div class="container">
         <h2>never miss a post. Registor for new account</h2>
         <router-link class="router-button" to="#">
@@ -66,6 +58,9 @@ export default {
   computed: {
     sampleBlogCards() {
       return this.$store.state.sampleBlogCards;
+    },
+    user() {
+      return this.$store.state.user;
     },
   },
 };

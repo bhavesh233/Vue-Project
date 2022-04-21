@@ -27,17 +27,14 @@ export default {
     },
     editPost: {
       get() {
-        console.log("getMethod");
         return this.$store.state.editPost;
       },
       set(payload) {
-        console.log("setmethod");
         this.$store.commit("toggleEditPost", payload);
       },
     },
   },
   beforeDestory() {
-    console.log("beforeDestory");
     this.$store.commit("toggleEditPost", false);
   },
 };

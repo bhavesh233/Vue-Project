@@ -80,6 +80,7 @@ export default {
           })
           .catch((err) => {
             this.error = true;
+            this.loading = false;
             this.errorMsg = err.message;
           });
       } else {
