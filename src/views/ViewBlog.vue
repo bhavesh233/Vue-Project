@@ -33,7 +33,7 @@ export default {
   },
  async mounted() {
     this.currentBlog = await this.$store.state.blogPosts.filter((post) => {
-      return post.blogId === this.$route.params.blogid;
+      return post.blogID === this.$route.params.blogid;
     });
   },
 };

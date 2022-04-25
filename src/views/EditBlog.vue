@@ -37,9 +37,9 @@
         />
       </div>
       <div class="blog-actions">
-        <button @click="uploadBlog">Publish Blog</button>
+        <button @click="updateBlog">Save Changes</button>
         <router-link class="router-button" :to="{ name: 'BlogPreview' }">
-          Post Preview
+          Preview Changes
         </router-link>
       </div>
     </div>
@@ -68,8 +68,8 @@ export default {
       file: null,
       error: null,
       loading: null,
-      routerID:null,
-      currentBlog:null,
+      routerID: null,
+      currentBlog: null,
       errorMsg: null,
       editorSetting: {
         modules: {
@@ -78,17 +78,18 @@ export default {
       },
     };
   },
-  async mounted(){
-      this.routerID = this.$route.params.blogid;
-      this.currentBlog = await this.$store.state.blogPosts.filter((post)=>{
-            return post.blogId ===  this.routerID
-      })
+  async mounted() {
+    this.routerID = this.$route.params.blogid;
 
-      this.$store.commit("setBlogState",this.currentBlog[0])
-
+    this.currentBlog = await this.$store.state.blogPosts.filter((post) => {
+      return post.blogID === this.routerID;
+    });
+    this.$store.commit("setBlogState", this.currentBlog[0]);
   },
   methods: {
-    uploadBlog() {
+    async updateBlog() {
+      const dataBase = await db.collection("blogPosts").doc(this.routerID);
+
       if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
         if (this.file) {
           this.loading = true;
@@ -108,31 +109,31 @@ export default {
             },
             async () => {
               const downloadURL = await docRef.getDownloadURL();
-              const timestamp = await Date.now();
-              const dataBase = await db.collection("blogPosts").doc();
+              // const timestamp = await Date.now();
+              // const dataBase = await db.collection("blogPosts").doc();
 
               await dataBase.set({
-                blogID: dataBase.id,
                 blogHTML: this.blogHTML,
                 blogCoverPhoto: downloadURL,
                 blogCoverPhotoName: this.blogCoverPhotoName,
                 blogTitle: this.blogTitle,
-                profileId: this.profileId,
-                date: timestamp,
               });
-              await this.$store.dispatch("getPost");
+              await this.$store.dispatch("updatePost", this.routerID);
 
               this.loading = false;
               this.$router.push({ name: "ViewBlog", params: { blogid: dataBase.id } });
             }
           );
-          return;
         }
-        this.error = true;
-        this.errorMsg = "Please ensure you uploaded a cover photo!";
-        setTimeout(() => {
-          this.error = false;
-        }, 5000);
+
+        this.loading = true;
+        await dataBase.update({
+          blogHTML: this.blogHTML,
+          blogTitle: this.blogTitle,
+        });
+        await this.$store.dispatch("updatePost", this.routerID);
+        this.loading = false;
+        this.$router.push({ name: "ViewBlog", params: { blogid: dataBase.id } });
         return;
       }
       this.error = true;
@@ -144,7 +145,6 @@ export default {
     },
     fileChange() {
       this.file = this.$refs.blogPhoto.files[0];
-      console.log(this.file);
       const fileName = this.file.name;
       this.$store.commit("fileNameChange", fileName);
       this.$store.commit("createFileURL", URL.createObjectURL(this.file));

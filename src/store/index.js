@@ -49,7 +49,7 @@ export default new Vuex.Store({
       state.blogTitle = payload
     },
 
-    setBlogState(state,payload){
+    setBlogState(state, payload) {
       state.blogTitle = payload.blogTitle;
       state.blogHTML = payload.blogHTML;
       state.blogPhotoFileURL = payload.blogCoverPhoto;
@@ -88,7 +88,9 @@ export default new Vuex.Store({
       state.profileUserName = payload;
     },
     filterBlogPost(state, payload) {
-      state.blogPosts = state.blogPosts.filter((post) => post.blogId !== payload)
+      console.log(state.blogPosts);
+      state.blogPosts = state.blogPosts.filter((post) => post.blogID !== payload);
+      console.log(state.blogPosts);
     }
 
 
@@ -102,24 +104,30 @@ export default new Vuex.Store({
       commit("setProfileInitials")
     },
 
+    async updatePost({ commit, dispatch }, payload) {
+      commit("filterBlogPost", payload);
+      await dispatch("getPost");
+    },
+
+
     async getPost({ state }) {
       const dataBase = await db.collection('blogPosts').orderBy('date', 'desc');
       const dbResult = await dataBase.get();
       dbResult.forEach((doc) => {
-        if (!state.blogPosts.some((post) => post.blogId === doc.id)) {
+        if (!state.blogPosts.some((post) => post.blogID === doc.id)) {
           const data = {
-            blogId: doc.data().blogID,
+            blogID: doc.data().blogID,
             blogHTML: doc.data().blogHTML,
             blogCoverPhoto: doc.data().blogCoverPhoto,
             blogTitle: doc.data().blogTitle,
             blogDate: doc.data().date,
-            blogCoverPhotoName:doc.data().blogCoverPhotoName
+            blogCoverPhotoName: doc.data().blogCoverPhotoName
           }
           state.blogPosts.push(data);
         }
+        console.log(state.blogPosts);
       })
       state.postLoaded = true;
-      console.log(state.blogPosts);
     },
 
     async updateUserSetting({ commit, state }) {
@@ -137,18 +145,17 @@ export default new Vuex.Store({
       const getPost = await db.collection('blogPosts').doc(payload);
       await getPost.delete();
       commit("filterBlogPost", payload);
-
     }
 
   },
   getters: {
 
     blogPostsFeed(state) {
-      return state.blogPosts.slice(4, 7);
+      return state.blogPosts.slice(0, 2);
     },
 
     blogPostsCards(state) {
-      return state.blogPosts.slice(2, 6);
+      return state.blogPosts.slice(2);
     }
 
   },
