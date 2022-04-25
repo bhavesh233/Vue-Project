@@ -3,9 +3,7 @@
     <BlogCoverPreview v-show="this.$store.state.blogPhotoPreview" />
     <Loading v-show="loading" />
     <div class="container">
-      <div :class="{ invisible: !error }" class="err-message">
-        <p><span>Error:</span>{{ this.errorMsg }}</p>
-      </div>
+      <Modal v-if="error" :modalMessage="this.errorMsg" v-on:close-modal="closeModal" />
       <div class="blog-info">
         <input type="text" placeholder="Enter Blog Title" v-model="blogTitle" />
         <div class="upload-file">
@@ -49,6 +47,7 @@
 <script>
 import BlogCoverPreview from "../components/BlogCoverPreview.vue";
 import Loading from "../components/Loading.vue";
+import Modal from "../components/Model.vue";
 import firebase from "firebase/app";
 import "firebase/storage";
 import db from "../firebase/firebaseInit";
@@ -62,6 +61,7 @@ export default {
   components: {
     BlogCoverPreview,
     Loading,
+    Modal,
   },
   data() {
     return {
@@ -158,6 +158,9 @@ export default {
           resetUploader();
         }
       );
+    },
+    closeModal() {
+      this.error = false;
     },
   },
   computed: {

@@ -42,6 +42,7 @@ export default {
 
   p {
     text-align: center;
+    margin: 10px;
   }
 
   button {

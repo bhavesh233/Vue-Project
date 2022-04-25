@@ -2,8 +2,10 @@
   <div class="app-wrapper">
     <div class="app" v-if="this.$store.state.postLoaded">
       <Navigation v-if="!navigation" />
-      <router-view />
-      <Footer v-if="!navigation" />
+      <div @click="disbleMenu">
+        <router-view />
+        <Footer v-if="!navigation" />
+      </div>
     </div>
   </div>
 </template>
@@ -22,8 +24,8 @@ export default {
       navigation: null,
     };
   },
-  created() {
-    firebase.auth().onAuthStateChanged((user) => {
+  async created() {
+    await firebase.auth().onAuthStateChanged((user) => {
       this.$store.commit("updateUser", user);
       if (user) {
         this.$store.dispatch("getCurrentUser");
@@ -35,7 +37,11 @@ export default {
     this.$store.dispatch("getPost");
   },
   mounted() {},
+
   methods: {
+    disbleMenu() {
+      this.$store.state.profileMenu = false;
+    },
     checkRoute() {
       if (
         this.$route.name === "Login" ||

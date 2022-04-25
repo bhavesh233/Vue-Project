@@ -1,11 +1,11 @@
 <template>
   <div class="blog-card">
     <div v-show="editPost" class="icons">
-      <div @click="editBlogPost" class="icon">
-        <Edit class="edit" />
+      <div @click="editBlogPost" class="icon"  v-if="user">
+        <Edit class="edit" v-if="user" />
       </div>
 
-      <div @click="deletePost" class="icon">
+      <div @click="deletePost" class="icon"  v-if="user">
         <Delete class="delete" />
       </div>
     </div>
@@ -20,7 +20,7 @@
       </h6>
       <router-link
         class="link"
-        :to="{ name: 'ViewBlog', params: { blogid: this.post.blogId } }"
+        :to="{ name: 'ViewBlog', params: { blogid: this.post.blogID } }"
         >View The Post <Arrow class="arrow" />
       </router-link>
     </div>
@@ -41,18 +41,21 @@ export default {
     Delete,
   },
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     editPost() {
       return this.$store.state.editPost;
     },
   },
   methods: {
     deletePost() {
-      this.$store.dispatch("deletePost", this.post.blogId);
+      this.$store.dispatch("deletePost", this.post.blogID);
     },
     editBlogPost() {
-      this.$router.push({ name: "EditBlog", params: { blogid: this.post.blogId } });
+      this.$router.push({ name: "EditBlog", params: { blogid: this.post.blogID } });
     },
-  }, 
+  },
 };
 </script>
 
