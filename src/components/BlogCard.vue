@@ -20,7 +20,7 @@
       </h6>
       <router-link
         class="link"
-        :to="{ name: 'ViewBlog', params: { blogid: this.post.blogId } }"
+        :to="{ name: 'ViewBlog', params: { blogid: this.post.blogID } }"
         >View The Post <Arrow class="arrow" />
       </router-link>
     </div>
@@ -47,10 +47,10 @@ export default {
   },
   methods: {
     deletePost() {
-      this.$store.dispatch("deletePost", this.post.blogId);
+      this.$store.dispatch("deletePost", this.post.blogID);
     },
     editBlogPost() {
-      this.$router.push({ name: "EditBlog", params: { blogid: this.post.blogId } });
+      this.$router.push({ name: "EditBlog", params: { blogid: this.post.blogID } });
     },
   }, 
 };
