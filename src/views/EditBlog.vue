@@ -87,6 +87,7 @@ export default {
   methods: {
     async updateBlog() {
       const dataBase = await db.collection("blogPosts").doc(this.routerID);
+
       if (this.blogTitle.length !== 0 && this.blogHTML.length !== 0) {
         if (this.file) {
           this.loading = true;
@@ -107,6 +108,7 @@ export default {
               const downloadURL = await docRef.getDownloadURL();
               // const timestamp = await Date.now();
               // const dataBase = await db.collection("blogPosts").doc();
+
               await dataBase.set({
                 blogHTML: this.blogHTML,
                 blogCoverPhoto: downloadURL,
@@ -114,11 +116,13 @@ export default {
                 blogTitle: this.blogTitle,
               });
               await this.$store.dispatch("updatePost", this.routerID);
+
               this.loading = false;
               this.$router.push({ name: "ViewBlog", params: { blogid: dataBase.id } });
             }
           );
         }
+
         this.loading = true;
         await dataBase.update({
           blogHTML: this.blogHTML,
@@ -252,7 +256,7 @@ export default {
       transition: 0.5s ease-in-out all;
       padding: 10px 4px;
       border: none;
-      border-bottom: 1px solid #303030;
+      border-bottom: 1px solid #303030;tBlog.vue
       &:focus {
         outline: none;
         box-shadow: 0 1px 0 0 #303030;

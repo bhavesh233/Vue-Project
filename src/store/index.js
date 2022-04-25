@@ -89,7 +89,11 @@ export default new Vuex.Store({
       state.profileUserName = payload;
     },
     filterBlogPost(state, payload) {
+
       state.blogPosts = state.blogPosts.filter((post) => post.blogID !== payload)
+
+      state.blogPosts = state.blogPosts.filter((post) => post.blogID !== payload);
+
     }
 
 
@@ -123,6 +127,7 @@ export default new Vuex.Store({
           }
           state.blogPosts.push(data);
         }
+        console.log(state.blogPosts);
       })
       state.postLoaded = true;
     },
@@ -142,7 +147,6 @@ export default new Vuex.Store({
       const getPost = await db.collection('blogPosts').doc(payload);
       await getPost.delete();
       commit("filterBlogPost", payload);
-
     }
 
   },
@@ -155,6 +159,8 @@ export default new Vuex.Store({
     blogPostsCards(state) {
       return state.blogPosts.slice(2);
     },
+   }
+
   },
   modules: {},
 });
