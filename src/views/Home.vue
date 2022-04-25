@@ -14,8 +14,8 @@
     <div v-if="!user" class="updates">
       <div class="container">
         <h2>never miss a post. Registor for new account</h2>
-        <router-link class="router-button" to="#">
-          Registor for FireBlogs <Arrow class="arrow arrow-light" />
+        <router-link class="router-button" :to="{name:'Register'}">
+          Registor for Blogs <Arrow class="arrow arrow-light" />
         </router-link>
       </div>
     </div>
@@ -43,7 +43,7 @@ export default {
   },
 
   computed: {
-    blogPostsFeed(){
+    blogPostsFeed() {
       return this.$store.getters.blogPostsFeed;
     },
     blogPostsCards() {

@@ -1,27 +1,35 @@
 <template>
   <div class="blog-card-wrap">
     <div class="blog-cards container">
+      <Modal v-if="error" :modalMessage="this.errorMsg" v-on:close-modal="closeModal" />
       <div class="toggle-edit">
         <span>Toggle Editing Post</span>
         <input type="checkbox" v-model="editPost" />
       </div>
-      <BlogCard
-        :post="post"
-         v-for="(post, index) in blogPosts"
-        :key="index"
-      />
+      <BlogCard :post="post" v-for="(post, index) in blogPosts" :key="index" />
     </div>
   </div>
 </template>
 
 <script>
 import BlogCard from "../components/BlogCard.vue";
+import Modal from "../components/Model.vue";
 export default {
   name: "blogs",
   components: {
     BlogCard,
+    Modal,
+  },
+  data() {
+    return {
+      error: false,
+      errorMsg: null,
+    };
   },
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     blogPosts() {
       return this.$store.state.blogPosts;
     },
@@ -30,8 +38,17 @@ export default {
         return this.$store.state.editPost;
       },
       set(payload) {
+        if (!this.$store.state.editPost && !this.$store.state.user) {
+          this.error = true;
+          this.errorMsg = "You are not Login, You can't edit";
+        }
         this.$store.commit("toggleEditPost", payload);
       },
+    },
+  },
+  methods: {
+    closeModal() {
+      this.error = false;
     },
   },
   beforeDestory() {
@@ -64,8 +81,7 @@ export default {
       width: 80px;
       height: 30px;
       border-radius: 20px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     input[type="checkbox"]:before {
@@ -75,12 +91,11 @@ export default {
       height: 30px;
       border-radius: 20px;
       top: 0;
-      left: 0 ;
+      left: 0;
       background: #303030;
       transform: scale(1.1);
       transition: 750ms cubic-bezier(0.4, 0, 1, 1) all;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-        0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
 
     input:checked[type="checkbox"]:before {

@@ -17,6 +17,7 @@ export default new Vuex.Store({
     blogPhotoFileURL: null,
     blogPhotoPreview: null,
 
+    profileMenu: false,
 
     editPost: null,
     user: null,
@@ -88,9 +89,11 @@ export default new Vuex.Store({
       state.profileUserName = payload;
     },
     filterBlogPost(state, payload) {
-      console.log(state.blogPosts);
+
+      state.blogPosts = state.blogPosts.filter((post) => post.blogID !== payload)
+
       state.blogPosts = state.blogPosts.filter((post) => post.blogID !== payload);
-      console.log(state.blogPosts);
+
     }
 
 
@@ -108,7 +111,6 @@ export default new Vuex.Store({
       commit("filterBlogPost", payload);
       await dispatch("getPost");
     },
-
 
     async getPost({ state }) {
       const dataBase = await db.collection('blogPosts').orderBy('date', 'desc');
@@ -156,7 +158,8 @@ export default new Vuex.Store({
 
     blogPostsCards(state) {
       return state.blogPosts.slice(2);
-    }
+    },
+   }
 
   },
   modules: {},

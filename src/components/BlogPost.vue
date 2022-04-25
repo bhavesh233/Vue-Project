@@ -23,7 +23,7 @@
         <router-link
           class="link"
           v-else
-          :to="{ name: 'ViewBlog', params: { blogid: post.blogId } }"
+          :to="{ name: 'ViewBlog', params: { blogid: post.blogID } }"
         >
           View The Post <Arrow class="arrow" />
         </router-link>

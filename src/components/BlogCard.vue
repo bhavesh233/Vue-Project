@@ -1,11 +1,11 @@
 <template>
   <div class="blog-card">
     <div v-show="editPost" class="icons">
-      <div @click="editBlogPost" class="icon">
-        <Edit class="edit" />
+      <div @click="editBlogPost" class="icon"  v-if="user">
+        <Edit class="edit" v-if="user" />
       </div>
 
-      <div @click="deletePost" class="icon">
+      <div @click="deletePost" class="icon"  v-if="user">
         <Delete class="delete" />
       </div>
     </div>
@@ -41,6 +41,9 @@ export default {
     Delete,
   },
   computed: {
+    user() {
+      return this.$store.state.user;
+    },
     editPost() {
       return this.$store.state.editPost;
     },
@@ -52,7 +55,7 @@ export default {
     editBlogPost() {
       this.$router.push({ name: "EditBlog", params: { blogid: this.post.blogID } });
     },
-  }, 
+  },
 };
 </script>
 

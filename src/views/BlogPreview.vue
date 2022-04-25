@@ -7,9 +7,7 @@
       <img :src="blogCoverPhoto" alt="" />
       <div class="post-content ql-editor" v-html="blogHTML"></div>
 
-      <router-link class="router-button" :to="{ name: 'CreatePost' }">
-        Back <Arrow class="arrow" />
-      </router-link>
+      
     </div>
   </div>
 </template>

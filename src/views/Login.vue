@@ -2,11 +2,7 @@
   <div class="form-wrap">
     <Loading v-if="loading" />
 
-    <Modal
-      v-if="error"
-      :modalMessage="this.errorMsg"
-      v-on:close-modal="closeModal"
-    />
+    <Modal v-if="error" :modalMessage="this.errorMsg" v-on:close-modal="closeModal" />
 
     <form class="login">
       <p class="login-register">
@@ -15,7 +11,7 @@
           Register
         </router-link>
       </p>
-      <h2>Login to FireBlogs</h2>
+      <h2>Login to Blog</h2>
       <div class="inputs">
         <div class="input">
           <input type="text" placeholder="email" v-model="email" />
@@ -33,6 +29,7 @@
       </router-link>
 
       <button @click.prevent="signIn">Sign In</button>
+      <button @click="homePage">Home</button>
       <div class="angle"></div>
     </form>
     <div class="background"></div>
@@ -65,6 +62,9 @@ export default {
     };
   },
   methods: {
+    homePage() {
+      this.$router.push({ name: "Home" });
+    },
     signIn() {
       if (this.email !== "" && this.password !== "") {
         this.loading = true;
